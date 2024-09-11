@@ -1,9 +1,3 @@
-
-No, we did not use Express in our previous tasks. Instead, we focused on testing controller logic and mocking service functions directly with Jest, without setting up a real Express app or handling real HTTP requests.
-
-Let’s revise the README.md to remove references to Express and ensure it accurately reflects the tools and techniques we used.
-
-Final Revised README.md Without Express and Supertest
 Project Name: Warehouse and Orders API
 Description
 This project provides an API for managing warehouse data, checking product availability, updating orders, and deleting kits. The project focuses on testing the core logic and ensuring that controllers and services behave as expected, using mocking techniques to simulate data interactions.
