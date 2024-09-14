@@ -1,5 +1,3 @@
-// tests/deleteKit.test.js
-
 const kitService = require('../services/kitService'); // Import the service
 const kitController = require('../controllers/kitController'); // Import the controller
 
@@ -9,7 +7,7 @@ jest.mock('../services/kitService');
 describe('DELETE /api/v1/kits/:id', () => {
 
   // Test 1: Successfully delete a kit
-  it('should return a 200 status and a success message when the kit is deleted', () => {
+  it('Should return a 200 status and a success message when the kit is deleted', () => {
     // Mock the service to simulate successful deletion
     kitService.deleteKitById.mockReturnValue(true);
 
@@ -25,11 +23,11 @@ describe('DELETE /api/v1/kits/:id', () => {
 
     // Assertions: Check if the status and json methods were called with the correct values
     expect(res.status).toHaveBeenCalledWith(200); // Expect status 200
-    expect(res.json).toHaveBeenCalledWith({ message: 'Kit deleted successfully' });
+    expect(res.json).toHaveBeenCalledWith({ message: 'Kit deleted successfully' }); // Expect success message
   });
 
   // Test 2: Handle non-existent kit
-  it('should return a 404 status and an error message when the kit does not exist', () => {
+  it('Should return a 404 status and an error message when the kit does not exist', () => {
     // Mock the service to simulate kit not found
     kitService.deleteKitById.mockReturnValue(false);
 
@@ -45,7 +43,7 @@ describe('DELETE /api/v1/kits/:id', () => {
 
     // Assertions: Check if the status and json methods were called with the correct values
     expect(res.status).toHaveBeenCalledWith(404); // Expect status 404
-    expect(res.json).toHaveBeenCalledWith({ error: 'Kit not found' });
+    expect(res.json).toHaveBeenCalledWith({ error: 'Kit not found' }); // Expect error message
   });
 
 });

@@ -1,5 +1,3 @@
-// tests/updateOrder.test.js
-
 const orderService = require('../services/orderService'); // Import the service
 const orderController = require('../controllers/orderController'); // Import the controller
 
@@ -9,7 +7,7 @@ jest.mock('../services/orderService');
 describe('PUT /api/v1/orders/:id', () => {
 
   // Test 1: Check the response status code and updated order data
-  it('should return a 200 status code and the updated order', () => {
+  it('Should return a 200 status code and the updated order', () => {
     // Mock the input order data and the expected service response
     const orderId = '12345';
     const mockOrderData = { product: 'Bananas', quantity: 10 };
@@ -28,11 +26,11 @@ describe('PUT /api/v1/orders/:id', () => {
     // Call the controller function
     orderController.updateOrder(req, res);
 
-    // Assertions: Check if the status and json methods were called with the correct values
+    // Assertions for status code and response structure
     expect(res.status).toHaveBeenCalledWith(200); // Expect status 200
     expect(res.json).toHaveBeenCalledWith(mockUpdatedOrder); // Expect the updated order data
 
-    // Check the parsed response body
+    // Check the response body structure
     const responseData = res.json.mock.calls[0][0]; // Get the response data
     expect(responseData).toHaveProperty('id', orderId); // Check order ID
     expect(responseData).toHaveProperty('product', 'Bananas'); // Check product
@@ -40,7 +38,7 @@ describe('PUT /api/v1/orders/:id', () => {
   });
 
   // Test 2: Handle invalid order ID and check for a 500 error
-  it('should return a 500 status code if there is an error updating the order', () => {
+  it('Should return a 500 status code if there is an error updating the order', () => {
     // Simulate an error in the service
     orderService.updateOrderById.mockImplementation(() => {
       throw new Error('Order not found');
@@ -56,7 +54,7 @@ describe('PUT /api/v1/orders/:id', () => {
     // Call the controller function
     orderController.updateOrder(req, res);
 
-    // Assertions: Check if the status and json methods were called with the correct values
+    // Assertions for status code and error message
     expect(res.status).toHaveBeenCalledWith(500); // Expect status 500
     expect(res.json).toHaveBeenCalledWith({ error: 'An error occurred while updating the order' });
   });

@@ -1,5 +1,3 @@
-// tests/checkGoodsAvailability.test.js
-
 const warehouseService = require('../services/warehouseService'); // Import the service
 const warehouseController = require('../controllers/warehouseController'); // Import the controller
 
@@ -9,7 +7,7 @@ jest.mock('../services/warehouseService');
 describe('POST /api/v1/warehouses/check', () => {
 
   // Test 1: Check the response status code and availability of goods
-  it('should return a 200 status code and the correct availability of goods', () => {
+  it('Should return a 200 status code and the correct availability of goods', () => {
     // Mock the input goods and the expected service response
     const mockGoods = [
       { name: 'Bananas', quantity: 50 },
@@ -47,7 +45,7 @@ describe('POST /api/v1/warehouses/check', () => {
   });
 
   // Test 2: Handle an empty goods list and check for a correct response
-  it('should return a 200 status code and an empty array when no goods are provided', () => {
+  it('Should return a 200 status code and an empty array when no goods are provided', () => {
     // Mock the service to return an empty array
     warehouseService.checkGoodsAvailability.mockReturnValue([]);
 
