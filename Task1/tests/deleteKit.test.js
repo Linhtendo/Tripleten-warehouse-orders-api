@@ -22,28 +22,26 @@ describe('DELETE /api/v1/kits/:id', () => {
     kitController.deleteKit(req, res);
 
     // Assertions: Check if the status and json methods were called with the correct values
-    expect(res.status).toHaveBeenCalledWith(200); // Expect status 200
-    expect(res.json).toHaveBeenCalledWith({ message: 'Kit deleted successfully' }); // Expect success message
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ message: 'Kit deleted successfully' });
   });
 
-  // Test 2: Handle non-existent kit
-  it('Should return a 404 status and an error message when the kit does not exist', () => {
-    // Mock the service to simulate kit not found
-    kitService.deleteKitById.mockReturnValue(false);
+  // Test 2: Handle invalid ID format and return a 400 error
+  it('Should return a 400 status when the ID format is invalid', () => {
+    kitService.deleteKitById.mockImplementation(() => {
+      throw new Error('Invalid ID format');
+    });
 
-    // Mock the req and res objects
-    const req = { params: { id: 'non-existent-id' } };
+    const req = { params: { id: 'invalid-format' } };
     const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn()
     };
 
-    // Call the controller function
     kitController.deleteKit(req, res);
 
-    // Assertions: Check if the status and json methods were called with the correct values
-    expect(res.status).toHaveBeenCalledWith(404); // Expect status 404
-    expect(res.json).toHaveBeenCalledWith({ error: 'Kit not found' }); // Expect error message
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Invalid ID format' });
   });
 
 });

@@ -1,41 +1,30 @@
 Warehouse and Orders API
 
-Overview
+Description
 
-This project provides an API for managing warehouse data, checking product availability, updating orders, and deleting kits. The focus of the project is on testing the core logic to ensure that controllers and services behave as expected. Jest's mocking capabilities are used to simulate data interactions without the need for a real database.
+The Warehouse and Orders API is a backend service designed to manage warehouse data, check product availability, update orders, and delete kits. The project focuses on ensuring robust functionality through thorough testing of the core logic, including controllers and services. This API uses Jest for testing, leveraging mocking capabilities to simulate data interactions, making the testing process efficient and independent of a real database.
 
-Technologies Used
+Technologies and Techniques Used
 
-Node.js: The runtime environment used to build and execute the API.
-Jest: A testing framework used for unit tests, including mocking service functions to simulate interactions with data.
-JavaScript (ES6): The primary language used for the project, leveraging features like destructuring and arrow functions.
-Mocking with Jest: Jest's mocking capabilities were used to simulate service functions and their interactions.
+Node.js: The JavaScript runtime environment used to build the API.
 
-API Endpoints
+Jest: A powerful testing framework used to write and execute unit tests. Jest’s mocking capabilities are extensively used to 
+simulate service functions and validate the interactions between controllers and services.
 
-GET /api/v1/warehouses: Retrieves a list of all warehouses.
-POST /api/v1/warehouses/check: Checks the availability of goods in the warehouse.
-PUT /api/v1/orders/:id: Updates an existing order by ID.
-DELETE /api/v1/kits/:id: Deletes a kit by its ID.
+JavaScript (ES6): The primary language used for the project, utilizing modern JavaScript features like destructuring, arrow functions, and async/await for cleaner and more efficient code.
 
-Installation Instructions
+Mocking with Jest: Jest’s built-in mocking functionality is used to create mocks for service functions, allowing isolated testing of controllers without requiring actual database operations.
 
-Clone the repository by running: git clone https://github.com/your-repo/project-name.git
+Running the Tests:
 
-Navigate to the project directory by running: cd project-name
+Follow these steps to run the tests for the API:
 
-Install the project dependencies by running: npm install
+Ensure Dependencies are Installed: Before running the tests, make sure all dependencies are installed. If not already done, you can install them by running:
 
-Setting the Test URL
+npm install
 
-Create a .env file in the root of the project.
+Running the Test Suite: Execute the test suite using the following command:
 
-Add the following line to set the test server URL: TEST_URL=http://localhost:3000
+npm test
 
-Running the Test Suite
-
-Install dependencies by running: npm install
-
-Run the tests by executing the following command: npm test
-
-This will run tests for all the API endpoints, including GET, POST, PUT, and DELETE requests.
+This command will run all tests defined for the API endpoints, including GET, POST, PUT, and DELETE requests. The tests ensure that the API's core functionality works as expected by validating the responses and behaviors of various endpoints.

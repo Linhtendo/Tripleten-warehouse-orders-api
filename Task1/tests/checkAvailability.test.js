@@ -1,72 +1,67 @@
-const warehouseService = require('../services/warehouseService'); // Import the service
-const warehouseController = require('../controllers/warehouseController'); // Import the controller
+const warehouseService = require('../services/warehouseService');
+const warehouseController = require('../controllers/warehouseController');
 
-// Mock the warehouse service
 jest.mock('../services/warehouseService');
 
 describe('POST /api/v1/warehouses/check', () => {
 
-  // Test 1: Check the response status code and availability of goods
-  it('Should return a 200 status code and the correct availability of goods', () => {
-    // Mock the input goods and the expected service response
-    const mockGoods = [
-      { name: 'Bananas', quantity: 50 },
-      { name: 'Pineapples', quantity: 200 }
-    ];
-    const mockAvailability = [
-      { name: 'Bananas', available: true },
-      { name: 'Pineapples', available: false }
-    ];
+  // Test 1: Check if the response status code is 200
+  it('Should return a 200 status code when checking availability of goods', () => {
+    const mockGoods = [{ name: 'Bananas', quantity: 50 }, { name: 'Pineapples', quantity: 200 }];
+    const mockAvailability = [{ name: 'Bananas', available: true }, { name: 'Pineapples', available: false }];
 
-    // Mock the service to return the expected availability response
     warehouseService.checkGoodsAvailability.mockReturnValue(mockAvailability);
 
-    // Mock the req and res objects
     const req = { body: { goods: mockGoods } };
     const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn()
     };
 
-    // Call the controller function
     warehouseController.checkAvailability(req, res);
 
-    // Assertions: Check if the status and json methods were called with the correct values
-    expect(res.status).toHaveBeenCalledWith(200); // Expect status 200
-    expect(res.json).toHaveBeenCalledWith(mockAvailability); // Expect the correct availability data
-
-    // Check the parsed response body
-    const responseData = res.json.mock.calls[0][0]; // Get the response data
-    expect(Array.isArray(responseData)).toBe(true); // Check if it's an array
-    expect(responseData[0]).toHaveProperty('name', 'Bananas'); // Check first good
-    expect(responseData[0]).toHaveProperty('available', true); // Check availability
-    expect(responseData[1]).toHaveProperty('name', 'Pineapples');
-    expect(responseData[1]).toHaveProperty('available', false);
+    expect(res.status).toHaveBeenCalledWith(200);
   });
 
-  // Test 2: Handle an empty goods list and check for a correct response
-  it('Should return a 200 status code and an empty array when no goods are provided', () => {
-    // Mock the service to return an empty array
-    warehouseService.checkGoodsAvailability.mockReturnValue([]);
+  // Test 2: Check the response body structure
+  it('Should return the correct availability of goods in response', () => {
+    const mockGoods = [{ name: 'Bananas', quantity: 50 }, { name: 'Pineapples', quantity: 200 }];
+    const mockAvailability = [{ name: 'Bananas', available: true }, { name: 'Pineapples', available: false }];
 
-    // Mock the req and res objects
-    const req = { body: { goods: [] } }; // Empty array in the request
+    warehouseService.checkGoodsAvailability.mockReturnValue(mockAvailability);
+
+    const req = { body: { goods: mockGoods } };
     const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn()
     };
 
-    // Call the controller function
     warehouseController.checkAvailability(req, res);
 
-    // Assertions: Check the response status and data
-    expect(res.status).toHaveBeenCalledWith(200); // Expect status 200
-    expect(res.json).toHaveBeenCalledWith([]); // Expect an empty array
-
-    // Parse the response and check it's an empty array
     const responseData = res.json.mock.calls[0][0];
-    expect(Array.isArray(responseData)).toBe(true);
-    expect(responseData.length).toBe(0); // Should be an empty array
+    expect(responseData).toBeInstanceOf(Array);
+    expect(responseData[0]).toHaveProperty('name', 'Bananas');
+    expect(responseData[0]).toHaveProperty('available', true);
+    expect(responseData[1]).toHaveProperty('name', 'Pineapples');
+    expect(responseData[1]).toHaveProperty('available', false);
+  });
+
+  // Test 3: Handle invalid goods input and return a 400 error
+  it('Should return a 400 status code when goods input is invalid', () => {
+    warehouseService.checkGoodsAvailability.mockImplementation(() => {
+      throw new Error('Invalid goods data');
+    });
+
+    const req = { body: { goods: 'invalid-input' } };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn()
+    };
+
+    warehouseController.checkAvailability(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Invalid goods data' });
   });
 
 });
